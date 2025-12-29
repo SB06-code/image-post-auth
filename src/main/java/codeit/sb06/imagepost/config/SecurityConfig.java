@@ -5,6 +5,7 @@ import codeit.sb06.imagepost.entity.Role;
 import codeit.sb06.imagepost.repository.MemberRepository;
 import codeit.sb06.imagepost.security.JwtLoginSuccessHandler;
 import codeit.sb06.imagepost.security.RestAuthenticationFailureHandler;
+import codeit.sb06.imagepost.security.jwt.JwtAuthenticationEntryPoint;
 import codeit.sb06.imagepost.security.jwt.JwtAuthenticationFilter;
 import codeit.sb06.imagepost.security.jwt.JwtLogoutHandler;
 import codeit.sb06.imagepost.security.jwt.JwtTokenProvider;
@@ -30,6 +31,7 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtLoginSuccessHandler jwtLoginSuccessHandler;
     private final JwtLogoutHandler jwtLogoutHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,6 +39,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
                         // 조회(GET)는 누구나 가능
