@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 조회(GET)는 누구나 가능
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers("/api/auth/refresh").permitAll()
                         // 작성/수정/삭제는 인증된 사용자(MEMBER, ADMIN)만 가능
                         .requestMatchers("/api/posts/**").authenticated()
                         // 나머지 요청 허용
