@@ -29,7 +29,7 @@ apiClient.interceptors.response.use(
         if (error.response && error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                const res = await axios.post('/api/auth/refresh', {}, {
+                const res = await axios.post('/auth/refresh', {}, {
                     baseURL: '/api', withCredentials: true
                 });
 
@@ -40,7 +40,6 @@ apiClient.interceptors.response.use(
                 // 갱신 실패 시 로그아웃
                 setAccessToken(null);
                 localStorage.removeItem('isLoggedIn');
-                window.location.href = '/login';
                 return Promise.reject(err);
             }
         }
