@@ -36,7 +36,7 @@ public class JwtLogoutHandler implements LogoutHandler {
                     .orElse(null);
         }
 
-        if (refreshToken != null) {
+        if (refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
             try {
                 // 토큰에서 username 추출 -> Member 조회 -> DB 삭제
                 String username = jwtTokenProvider.getClaims(refreshToken).getSubject();
